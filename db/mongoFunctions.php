@@ -1,28 +1,6 @@
 <?php
 
 /**
- * Load a document from the DB using $id as its key
- * Note that the _id will be combined with "_TYPE: $docType" for the query
- * @param string $id
- * @return bool
- */
-function loadById(string $id) {
-    $filter = ['_id' => $id, '_TYPE' => $this->docType];
-    $options = ['limit' => 1];
-    $query = new MongoDB\Driver\Query($filter, $options);
-    $rows = $this->dbManager->executeQuery($this->dbName . '.' . $this->dbCollection, $query);
-    $rows->setTypeMap(['root' => 'array', 'document' => 'array', 'array' => 'array']);
-
-    $this->doc = $rows->toArray()[0] ?? null;
-
-    if (!is_null($this->doc)) {
-        $this->afterLoad();
-    }
-
-    return !is_null($this->doc);
-}
-
-/**
  *
  * @global type $manager
  * @param array $array
@@ -74,7 +52,7 @@ function update(array $query, array $array, string $dbName, string $collName) {
     // Create a bulk write object and add our update operation
     $writeConcern = new MongoDB\Driver\WriteConcern(MongoDB\Driver\WriteConcern::MAJORITY, 1000);
     $bulk = new MongoDB\Driver\BulkWrite(['ordered' => true]);
-    $bulk->update($query, ['$set' => $array],[]);
+    $bulk->update($query, ['$set' => $array], []);
 
     try {
         $result = $manager->executeBulkWrite($dbName . '.' . $collName, $bulk, $writeConcern);
@@ -98,17 +76,17 @@ function update(array $query, array $array, string $dbName, string $collName) {
 }
 
 /**
- *
+ * 
  * @global type $manager
  * @param array $filter
  * @param string $dbName
  * @param string $collName
- * @return type
+ * @param array $options
+ * @return array
  */
-function find(array $filter, string $dbName, string $collName) {
+function find(array $filter, string $dbName, string $collName, array $options = []) {
     global $manager;
 
-    $options = [];
     $query = new MongoDB\Driver\Query($filter, $options);
     $rows = $manager->executeQuery($dbName . '.' . $collName, $query);
     $rows->setTypeMap(['root' => 'array', 'document' => 'array', 'array' => 'array']);
@@ -118,43 +96,42 @@ function find(array $filter, string $dbName, string $collName) {
     return $doc;
 }
 
-//function save() {
-//    // put _id and _TYPE on top of document, and Status at bottom
-//    $doc['_id'] = $this->doc['_id'];
-//    $doc['_TYPE'] = $this->doc['_TYPE'];
-//    unset($this->doc['_id']);
-//    unset($this->doc['_TYPE']);
-//    $doc = array_merge($doc, $this->doc);
-//    unset($doc['Status']);
-//    $doc['Status'] = $this->doc['Status'];
-//    $this->doc = $doc;
-//
-//    $bulk = new MongoDB\Driver\BulkWrite(['ordered' => true]);
-//    $writeConcern = new MongoDB\Driver\WriteConcern(MongoDB\Driver\WriteConcern::MAJORITY, 1000);
-//
-//    if ($isNew) {
-//        $bulk->insert($this->doc);
-//    } else {
-//        $bulk->update(['_id' => $this->doc['_id']], $this->doc);
-//    }
-//
-//    try {
-//        $result = $this->dbManager->executeBulkWrite($this->dbName . '.' . $this->dbCollection, $bulk, $writeConcern);
-//    } catch (MongoDB\Driver\Exception\BulkWriteException $e) {
-//        $result = $e->getWriteResult();
-//
-//        // Check if the write concern could not be fulfilled
-//        if ($writeConcernError = $result->getWriteConcernError()) {
-//            error_log('ERROR MongoDB writeConcernError: ' . $writeConcernError->getMessage() . ' (' . $writeConcernError->getCode());
-//        }
-//
-//        // Check if any write operations did not complete at all
-//        foreach ($result->getWriteErrors() as $writeError) {
-//            error_log("ERROR MongoDB Operation #" . $writeError->getIndex() . ' ' . $writeError->getMessage() . ' (' . $writeError->getCode() . ')');
-//        }
-//    } catch (MongoDB\Driver\Exception\Exception $e) {
-//        error_log("ERROR MongoDB Other: ", $e->getMessage());
-//    }
-//
-//    return $result;
-//}
+/**
+ * 
+ * @global type $manager
+ * @param array $filter
+ * @param string $dbName
+ * @param string $collName
+ * @param array $options
+ * @return array
+ */
+function findOne(array $filter, string $dbName, string $collName, array $options = []) {
+    global $manager;
+
+    $options['limit'] = 1;
+    $query = new MongoDB\Driver\Query($filter, $options);
+    $rows = $manager->executeQuery($dbName . '.' . $collName, $query);
+    $rows->setTypeMap(['root' => 'array', 'document' => 'array', 'array' => 'array']);
+
+    $doc = $rows->toArray()[0] ?? null;
+
+    return $doc;
+}
+
+function distinct(string $field, string $dbName, string $collName) {
+    global $manager;
+
+//    $query = []; // your typical MongoDB query
+    $query = json_encode([]); // your typical MongoDB query
+    $cmd = new MongoDB\Driver\Command([
+        // build the 'distinct' command
+        'distinct' => $collName, // specify the collection name
+        'key' => $field, // specify the field for which we want to get the distinct values
+        'query' => $query // criteria to filter documents
+    ]);
+    $cursor = $manager->executeCommand($dbName, $cmd); // retrieve the results
+    $result = current($cursor->toArray())->values; // get the distinct values as an array
+
+    error_log(print_r($result, true));
+    return $result;
+}

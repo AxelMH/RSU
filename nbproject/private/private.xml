@@ -2,6 +2,17 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/D:/Documents/PHP/RSU/mtgDeckCreate.php</file>
+            <file>file:/D:/Documents/PHP/RSU/stock_events.php</file>
+            <file>file:/D:/Documents/PHP/RSU/db/mongoFunctions.php</file>
+            <file>file:/D:/Documents/PHP/RSU/scripts/mtgJsonToMongo.php</file>
+            <file>file:/D:/Documents/PHP/RSU/index.html</file>
+            <file>file:/D:/Documents/PHP/RSU/scripts/jsonToDb.php</file>
+            <file>file:/D:/Documents/PHP/RSU/shadowverse.php</file>
+            <file>file:/D:/Documents/PHP/RSU/index.php</file>
+            <file>file:/D:/Documents/PHP/RSU/img_pixels_color_count.php</file>
+            <file>file:/D:/Documents/PHP/RSU/mtgStock.php</file>
+        </group>
     </open-files>
 </project-private>

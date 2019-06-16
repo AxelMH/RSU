@@ -226,14 +226,11 @@ function distanceColors($colors, $maxDist) {
             $g2 = explode(',', $color2)[1];
             $b2 = explode(',', $color2)[2];
 
-//            $rmean = ($r2 + $r1) / 2;
             $ur = $r2 + $r1;
             $dr = $r2 - $r1;
             $dg = $g2 - $g1;
             $db = $b2 - $b1;
 
-//            $distance = sqrt(($dr) ** 2 + ($dg) ** 2 + ($db) ** 2);
-//            $distance2 = sqrt(2 * ($dr ** 2) + 4 * ($dg ** 2) + 3 * ($db ** 2) + ($rmean * ($dr ** 2 - $db ** 2)) / 256);
             $distance3 = ($dr * $dr * (2 + $ur / 256) + $dg * $dg * 4 + $db * $db * (2 + (255 - $ur) / 256)) ** (1 / 3);
 
             if ($distance3 <= $maxDist) {
