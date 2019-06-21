@@ -7,8 +7,9 @@
         <li><a href="shadowverse.php">Shadowverse Deck Creator</a></li>
         <li><a href="shadowverse.php">Shadowverse Decks Viewer</a></li>
         <li><a href="mtgDeckCreate.php">MTG Deck Creator</a></li>
-        <li><a href="mtgStock.php">MTG Stock</a></li>
-        <li><a href="mtg.php">MTG Decks Viewer</a></li>
+        <li><a href="mtgStock.php">MTG Stock Import</a></li>
+        <li><a href="mtg_deck_vs_stock.php">MTG Deck vs Stock</a></li>
+        <li><a href="mtg_deck.php">MTG Decks Viewer</a></li>
         <li><a href="img_pixels_color_count.php">Image pixels</a></li>
     </ul>
 </html>
