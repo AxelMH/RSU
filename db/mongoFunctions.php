@@ -23,7 +23,7 @@ function save(array $array, string $dbName, string $collName) {
 
         // Check if the write concern could not be fulfilled
         if ($writeConcernError = $result->getWriteConcernError()) {
-            error_log('ERROR MongoDB writeConcernError: ' . $writeConcernError->getMessage() . ' (' . $writeConcernError->getCode());
+            error_log('ERROR MongoDB writeConcernError: ' . $writeConcernError->getMessage() . ' (' . $writeConcernError->getCode() . ')');
         }
 
         // Check if any write operations did not complete at all
