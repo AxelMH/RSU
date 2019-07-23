@@ -29,7 +29,7 @@ if ($action == 'add') {
     $found = findOne($array, $dbName, $collName);
     if ($found) {
         $found['qty'] += $qty;
-        update($array, $array, $dbName, $collName);
+        update($array, $found, $dbName, $collName);
     } else {
         $array['_id'] = uniqid();
         $array['qty'] = $qty;

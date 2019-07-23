@@ -4,95 +4,103 @@ include './db/dbmongo.php';
 include './db/mongoFunctions.php';
 
 $db = 'MTG';
+$title = "MTG Stock Import"
 ?>
 
 <html>
-    <style>
-        * { box-sizing: border-box; }
-        body {
-            font: 16px Arial; 
-        }
-        .autocomplete {
-            /*the container must be positioned relative:*/
-            position: relative;
-            display: inline-block;
-        }
-        input {
-            border: 1px solid transparent;
-            background-color: #f1f1f1;
-            padding: 10px;
-            font-size: 16px;
-        }
-        input[type=text] {
-            background-color: #f1f1f1;
-            width: 100%;
-        }
-        input[type=submit] {
-            background-color: DodgerBlue;
-            color: #fff;
-        }
-        .autocomplete-items {
-            position: absolute;
-            border: 1px solid #d4d4d4;
-            border-bottom: none;
-            border-top: none;
-            z-index: 99;
-            /*position the autocomplete items to be the same width as the container:*/
-            top: 100%;
-            left: 0;
-            right: 0;
-        }
-        .autocomplete-items div {
-            padding: 10px;
-            cursor: pointer;
-            background-color: #fff; 
-            border-bottom: 1px solid #d4d4d4; 
-        }
-        .autocomplete-items div:hover {
-            /*when hovering an item:*/
-            background-color: #e9e9e9; 
-        }
-        .autocomplete-active {
-            /*when navigating through the items using the arrow keys:*/
-            background-color: DodgerBlue !important; 
-            color: #ffffff; 
-        }
-    </style>
-    <title></title>
-    <body>
-        <?php
-        if (!empty($_SESSION['message'])) {
-            echo $_SESSION['message'];
-            unset($_SESSION['message']);
-        }
-        ?>
-        <form autocomplete="off" action="./stock_events.php"  method="post">
-            <div class="autocomplete" style="width:300px;">
-                <input type="hidden" name="action" value="add"/>
-                <input type="number" name="quantity" value="1" min="1"/>
-                <input id="card" type="text" name="card" placeholder="card" onchange="updPrintings()"/><br/>
-                <select id="printings" name="printings" style="width:200px"/>                    
-                <br/>
-                Foil: <input id="foil" type="checkbox" name="foil">
-            </div>
-            <input type="submit">
-        </form>
+    <head>
+        <link rel="stylesheet" href="/rsu/styles/mtgStyle.css" type="text/css">
 
+        <style>
+            * { box-sizing: border-box; }
+            body {
+                font: 16px Arial; 
+            }
+            .autocomplete {
+                /*the container must be positioned relative:*/
+                position: relative;
+                display: inline-block;
+            }
+            input {
+                border: 1px solid transparent;
+                background-color: #f1f1f1;
+                padding: 10px;
+                font-size: 16px;
+            }
+            input[type=text] {
+                background-color: #f1f1f1;
+                width: 100%;
+            }
+            input[type=submit] {
+                background-color: DodgerBlue;
+                color: #fff;
+            }
+            .autocomplete-items {
+                position: absolute;
+                border: 1px solid #d4d4d4;
+                border-bottom: none;
+                border-top: none;
+                z-index: 99;
+                /*position the autocomplete items to be the same width as the container:*/
+                top: 100%;
+                left: 0;
+                right: 0;
+            }
+            .autocomplete-items div {
+                padding: 10px;
+                cursor: pointer;
+                background-color: #fff; 
+                border-bottom: 1px solid #d4d4d4; 
+            }
+            .autocomplete-items div:hover {
+                /*when hovering an item:*/
+                background-color: #e9e9e9; 
+            }
+            .autocomplete-active {
+                /*when navigating through the items using the arrow keys:*/
+                background-color: DodgerBlue !important; 
+                color: #ffffff; 
+            }
+        </style>
+        <title><?= $title ?></title>
+    </head>
+    <body>
+        <?php include_once './styles/topbar.php'; ?>
+        <div class="container">
+            <?php
+            if (!empty($_SESSION['message'])) {
+                echo trim($_SESSION['message']);
+                unset($_SESSION['message']);
+            }
+            ?>
+
+            <form autocomplete="off" action="./stock_events.php"  method="post">
+                <div class="autocomplete" style="width:300px;">
+                    <input type="hidden" name="action" value="add"/>
+                    <input type="number" name="quantity" value="1" min="1"/>
+                    <input id="card" type="text" name="card" placeholder="card" onchange="updPrintings()"/><br/>
+                    <select id="printings" name="printings" style="width:200px"/>                    
+                    <br/>
+                    Foil: <input id="foil" type="checkbox" name="foil">
+                </div>
+                <input type="submit">
+            </form>
+
+        </div>
 
         <script>
             var cards = [<?php
-        $cards = find([], $db, 'cards', ['projection' => ['name' => 1]]);
-        foreach ($cards as $card) {
-            echo '"' . str_replace('"', '\\"', $card['name']) . '", ';
-        }
-        ?>];
-                var sets={<?php
-                        $sets = find([], $db, 'sets');
-        foreach ($sets as $set) {
-            echo "\"$set[code]\":\"$set[name]\",";
-        }
-
-                ?>};
+            $cards = find([], $db, 'cards', ['projection' => ['name' => 1]]);
+            foreach ($cards as $card) {
+                echo '"' . str_replace('"', '\\"', $card['name']) . '", ';
+            }
+            ?>];
+            var sets = {<?php
+            $sets = find([], $db, 'sets');
+            foreach ($sets as $set) {
+                echo "\"$set[code]\":\"$set[name]\",";
+            }
+            ?>};
             function autocomplete(inp, arr) {
                 /*the autocomplete function takes two arguments,
                  the text field element and an array of possible autocompleted values:*/
