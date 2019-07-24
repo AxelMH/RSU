@@ -1,0 +1,103 @@
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# =========================
+# Operating System Files
+# =========================
+
+# OSX
+# =========================
+
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Icon must ends with two \r.
+Icon
+
+
+# Thumbnails
+._*
+
+# Files that might appear on external disk
+.Spotlight-V100
+
+#Spectrum-E non core
+/images/antennas
+/images/Antennas/
+/images/Antennas bak/
+/temp/
+/dl/
+/nbproject/
+/experiments
+
+.Trashes
+dbconnect.php
+portal/b/includes/tinymce
+portal/b/includes/dbconnect.php
+portal/b/tests/
+portal/b/SRD/docs/
+portal/mex/docs/
+portal/mex/tests/
+portal/arg/docs/
+portal/arg/tests/
+portal/doi/docs/
+portal/doi/tests/
+portal/ane/docs/
+portal/ane/tests/
+reports/ckeditor
+conf.php
+rf_locals.php
+rf_Locals.php
+dbconnect.php
+integracao
+portal/b/includes/cas
+public/file
+aula
+tests/
+tmp/
+.vscode/
+.idea/
+Am*
+
+A_*
+
+.buildpath
+.project
+portal/b/includes/dbconnect.php
+portal/b/teste/db.php
+eApp/events/urg/formato-TV_URG-amarin@atdi.us.com.csv
+
+
+/monitoring/argus/orders/
+/monitoring/argus/inbox/
+/monitoring/argus/outbox/
+/monitoring/argus/results/
+/monitoring/scorpio/lic/
+/monitoring/scorpio/results/
+/monitoring/scorpio/scorpio_pathift.xml
+/monitoring/scorpio/scorpio_path.xml
+/monitoring/scorpio/argus_path.xml
+
+/portal/mex/publico/includes/config.php
+/portal/mex/_migration/data/
+!eApp/events/mex/internacionales/*
+
+/docs/chart_MEX_2.xml
+/KMLs/
+/monitoring/argus/argus_path.xml
+/monitoring/includes/scorpio_locals.php
+/elearning/nbproject/private/
