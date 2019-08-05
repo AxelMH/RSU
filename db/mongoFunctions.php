@@ -38,7 +38,7 @@ function save(array $array, string $dbName, string $collName) {
 }
 
 /**
- *
+ * Update query with array
  * @global type $manager
  * @param array $array
  * @param array $query
