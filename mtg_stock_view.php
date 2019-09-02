@@ -106,8 +106,8 @@ $title = "MTG Stock View"
                 return $valueA - $valueB;
             }
 
-            $cards = find([], $db, 'stock', ['limit' => 500]);
-//            $cards = find([], $db, 'stock');
+//            $cards = find([], $db, 'stock', ['limit' => 500]);
+            $cards = find([], $db, 'stock');
             foreach ($cards as $key => $card) {
                 $details = findOne(['name' => $card['cardname']], $db, 'cards');
                 $cards[$key]['colors'] = $details['colors'];
