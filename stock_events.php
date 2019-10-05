@@ -20,11 +20,13 @@ if ($action == 'add') {
     $cardname = filter_input(INPUT_POST, 'card');
     $qty = (int) filter_input(INPUT_POST, 'quantity');
     $print = filter_input(INPUT_POST, 'printings');
+    $location = filter_input(INPUT_POST, 'location');
     $foil = (bool) filter_input(INPUT_POST, 'foil');
 
     $array = [
         'cardname' => $cardname,
         'print' => $print,
+        'location' => $location,
         'foil' => $foil,
     ];
     $found = findOne($array, $dbName, $collName);
@@ -46,44 +48,59 @@ if ($action == 'addList') {
     $collName = 'stock';
     $_SESSION['message'] = '';
 
-    $list = filter_input(INPUT_POST, 'list');
-    $listLine = explode(PHP_EOL, $list);
+    $list = trim(filter_input(INPUT_POST, 'list'));
+    $listLines = explode(PHP_EOL, $list);
 
     $print = filter_input(INPUT_POST, 'printings');
+    $location = filter_input(INPUT_POST, 'location');
     $foil = (bool) filter_input(INPUT_POST, 'foil');
 
-    foreach ($listLine as $card) {
-        //TODO: check examples with formats N cardname and Nx cardname
+    foreach ($listLines as $card) {
         $explosion = explode(" ", $card);
-        if (is_int(trim($explosion[0], " x"))) {
+        if (is_numeric(trim($explosion[0], " x"))) {
             $qty = (int) trim(array_shift($explosion), " x");
         } else {
             $qty = 1;
         }
         $cardname = trim(implode(' ', $explosion));
 
-        //TODO: check expansion
-        $foundCard = find(['name' => $cardname], $dbName, 'cards');
-        if (!empty($foundCard) && !empty($cardname) && !empty($qty)) {
-            $array = [
-                'cardname' => $cardname,
-                'print' => $print,
-                'foil' => $foil,
-            ];
-            $inStock = findOne($array, $dbName, $collName);
-            if ($inStock) {
-                $inStock['qty'] += $qty;
-                update($array, $inStock, $dbName, $collName);
-            } else {
-                $array['_id'] = uniqid();
-                $array['qty'] = $qty;
-                save($array, $dbName, $collName);
-            }
-
-            $_SESSION['message'] .= "$qty <b>$cardname</b> successfully added to stock.<br>";
-        } else {
-            $_SESSION['message'] .= "<span style='color:red'><b>$cardname</b> NOT found.</span><br>";
+        //validate the cardname exists
+        if (empty($cardname)) {
+            $_SESSION['message'] .= "<span style='color:red'>Could not process <b>$card</b>.</span><br>";
+            continue;
         }
+
+        //check cardname is an existing card
+        $foundCard = findOne(['name' => $cardname], $dbName, 'cards');
+        if (empty($foundCard)) {
+            $_SESSION['message'] .= "<span style='color:red'><b>$cardname</b> NOT found.</span><br>";
+            continue;
+        }
+
+        //check card is in set
+        if (!in_array($print, $foundCard['printings'])) {
+            $_SESSION['message'] .= "<span style='color:red'><b>$cardname</b> NOT in set $print.</span><br>";
+            continue;
+        }
+
+        //import card
+        $array = [
+            'cardname' => $cardname,
+            'print' => $print,
+            'location' => $location,
+            'foil' => $foil,
+        ];
+        $inStock = findOne($array, $dbName, $collName);
+        if ($inStock) {
+            $inStock['qty'] += $qty;
+            update($array, $inStock, $dbName, $collName);
+        } else {
+            $array['_id'] = uniqid();
+            $array['qty'] = $qty;
+            save($array, $dbName, $collName);
+        }
+
+        $_SESSION['message'] .= "$qty <b>$cardname</b> successfully added to stock.<br>";
     }
 
     header("Location: ./mtg_mass_stock_import.php");

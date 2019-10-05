@@ -30,11 +30,14 @@ $title = "MTG List Stock Import";
                     $sets = find([], $db, 'sets', ['sort' => ['releaseDate' => -1]]);
 
                     foreach ($sets as $set) {
-                        echo "<option value='$set[code]]'>$set[name]</option>";
+                        echo "<option value='$set[code]'>$set[name]</option>";
                     }
                     ?>
-                </select>                    
+                </select>
+                <br>
+                Location: <input id="location" type="text" name="location">
                 Foil: <input id="foil" type="checkbox" name="foil">
+                <br>
                 <input type = "submit" value = "submit" />
             </form>
         </div>
