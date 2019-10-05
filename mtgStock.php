@@ -77,7 +77,7 @@ $title = "MTG Stock Import"
             <form autocomplete="off" action="./stock_events.php"  method="post">
                 <div class="autocomplete" style="width:300px;">
                     <input type="hidden" name="action" value="add"/>
-                    <input type="number" name="quantity" value="1" min="1"/>
+                    <input type="number" name="quantity" value="1"/>
                     <input id="card" type="text" name="card" placeholder="card" onchange="updPrintings()"/><br/>
                     <select id="printings" name="printings" style="width:200px"/>
                     <br/>
