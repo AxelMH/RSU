@@ -1,5 +1,2 @@
 /db/*.json
 /nbproject/*.xml
-nbproject/
-/nbproject/
-tests/
