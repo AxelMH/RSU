@@ -1,5 +1,7 @@
 <?php
 //D:\Documents\PHP\RSU\scripts\jsonToDb.php
+//http://localhost/RSU/scripts/jsonToDb.php
+
 set_time_limit(0);
 
 include_once '../db/dbmongo.php';
@@ -42,9 +44,10 @@ $dbName = 'MTG';
 //
 //    save($array, 'MTG', 'sets');
 //}
+
 //new sets
 //path to set.json
-$json = json_decode(file_get_contents('../db/PS19.json'), true);
+$json = json_decode(file_get_contents('../db/PELD.json'), true);
 
 $setArray = [
     '_id' => uniqid(),
