@@ -1,6 +1,7 @@
 <?php
 include_once './db/dbmongo.php';
 include_once './db/mongoFunctions.php';
+include_once './includes/functions.php';
 $dbName = 'MTG';
 
 $list = filter_input(INPUT_POST, 'list');
@@ -23,12 +24,9 @@ $title = 'List vs Stock';
 
             <?php
             if (!empty($list)) {
-                $listLine = explode(PHP_EOL, $list);
+                $listArray = listToArray($list);
 
-                foreach ($listLine as $card) {
-                    $qty = (int) explode('x', $card)[0];
-                    $cardname = trim(explode('x', $card, 2)[1]);
-
+                foreach ($listLine as $cardname => $qty) {
                     $found = find(['name' => $cardname], $dbName, 'cards');
                     if (!empty($found) && !empty($cardname) && !empty($qty)) {
                         $listArray[$cardname] = $qty;
@@ -82,7 +80,6 @@ $title = 'List vs Stock';
                     $countMissing += $missing[$cardname];
                 }
                 echo "<br><b>Total: $countMissing </b><br>\n";
-
             }
 
             /**

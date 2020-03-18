@@ -1,7 +1,7 @@
 <?php
 
 /**
- *
+ * Save array to db on collName
  * @global type $manager
  * @param array $array
  * @param string $dbName

@@ -16,5 +16,3 @@ include './db/mongoFunctions.php';
         </select>
     </body>
 </html>
-<?php
-
