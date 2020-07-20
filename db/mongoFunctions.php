@@ -31,7 +31,7 @@ function save(array $array, string $dbName, string $collName) {
             error_log("ERROR MongoDB Operation #" . $writeError->getIndex() . ' ' . $writeError->getMessage() . ' (' . $writeError->getCode() . ')');
         }
     } catch (MongoDB\Driver\Exception\Exception $e) {
-        error_log("ERROR MongoDB Other: ", $e->getMessage());
+        error_log("ERROR MongoDB Other: " . $e->getMessage());
     }
 
     return $result;
@@ -69,7 +69,7 @@ function update(array $query, array $array, string $dbName, string $collName) {
             error_log("ERROR MongoDB Operation #" . $writeError->getIndex() . ' ' . $writeError->getMessage() . ' (' . $writeError->getCode() . ')');
         }
     } catch (MongoDB\Driver\Exception\Exception $e) {
-        error_log("ERROR MongoDB Other: ", $e->getMessage());
+        error_log("ERROR MongoDB Other: " . $e->getMessage());
     }
 
     return $result;
@@ -118,11 +118,20 @@ function findOne(array $filter, string $dbName, string $collName, array $options
     return $doc;
 }
 
-function distinct(string $field, string $dbName, string $collName) {
+/**
+ * 
+ * @global type $manager
+ * @param string $field field for which we want to get the distinct values
+ * @param string $dbName
+ * @param string $collName
+ * @param type $query
+ * @return type
+ */
+function distinct(string $field, string $dbName, string $collName, $query = ['_id' => ['$ne' => '']]) {
+    //gereric query that finds everything because im lazy 
+    // and dont want to find out how to do the command with empty query
     global $manager;
 
-//    $query = []; // your typical MongoDB query
-    $query = json_encode([]); // your typical MongoDB query
     $cmd = new MongoDB\Driver\Command([
         // build the 'distinct' command
         'distinct' => $collName, // specify the collection name
@@ -132,6 +141,22 @@ function distinct(string $field, string $dbName, string $collName) {
     $cursor = $manager->executeCommand($dbName, $cmd); // retrieve the results
     $result = current($cursor->toArray())->values; // get the distinct values as an array
 
-    error_log(print_r($result, true));
     return $result;
+}
+
+function delete($dbname, $collection, $query){
+    global $manager;
+    
+    if(empty($dbname)){
+        throw new Exception(EXCEPTMSG_DBNAME);
+    }
+    if(empty($collection)){
+        throw new Exception(EXCEPTMSG_COLLECTION);
+    }
+
+    /*MongoDB*/
+    $mongoBulk = new MongoDB\Driver\BulkWrite((['ordered' => true]));
+    $mongoBulk->delete($query);
+    $manager->executeBulkWrite($dbname.'.'.$collection, $mongoBulk);
+
 }

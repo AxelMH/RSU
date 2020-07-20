@@ -34,3 +34,4 @@ if(defined('DB_MONGO') && DB_MONGO){
     define('DB_MONGO_AUTH', $authMongoArray);
 }
 
+include_once 'mongoFunctions.php';

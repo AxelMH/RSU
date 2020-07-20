@@ -1,7 +1,7 @@
 <?php
 session_start();
 include './db/dbmongo.php';
-include './db/mongoFunctions.php';
+//include './db/mongoFunctions.php';
 
 $db = 'MTG';
 $title = "MTG Stock Import"
