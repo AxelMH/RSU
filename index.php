@@ -18,6 +18,7 @@
             <li><a href="mtg_stock_view">MTG Stock Viewer</a></li>
             <li><a href="img_pixels_color_count">Image pixels</a></li>
             <li><a href="recetas/index">Recetas</a></li>
+            <li><a href="SINoALICE/">SINoALICE</a></li>
         </ul>
     </div>
 </html>
