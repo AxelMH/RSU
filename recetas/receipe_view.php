@@ -15,7 +15,7 @@ include_once '../styles/topbar.php';
 //todo: ordenar los que si se tienen y los que no
 //todo: buscar sin distinción de mayúsculas y minúsculas
         foreach ($receta['ingredients'] as $value) {
-            $ingrediente = findOne(['name' => $value[ingredient]], 'casa', 'ingredientes');
+            $ingrediente = findOne(['name' => $value['ingredient']], 'casa', 'ingredientes');
             $ingredienteString = '';
             if (!empty($ingrediente)) {
                 $ingredienteString = " <span style='color:blue'>$ingrediente[qty] $ingrediente[unit]</span>";

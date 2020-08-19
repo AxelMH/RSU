@@ -144,19 +144,18 @@ function distinct(string $field, string $dbName, string $collName, $query = ['_i
     return $result;
 }
 
-function delete($dbname, $collection, $query){
+function delete($query, $dbname, $collection) {
     global $manager;
-    
-    if(empty($dbname)){
+
+    if (empty($dbname)) {
         throw new Exception(EXCEPTMSG_DBNAME);
     }
-    if(empty($collection)){
+    if (empty($collection)) {
         throw new Exception(EXCEPTMSG_COLLECTION);
     }
 
-    /*MongoDB*/
+    /* MongoDB */
     $mongoBulk = new MongoDB\Driver\BulkWrite((['ordered' => true]));
     $mongoBulk->delete($query);
-    $manager->executeBulkWrite($dbname.'.'.$collection, $mongoBulk);
-
+    $manager->executeBulkWrite($dbname . '.' . $collection, $mongoBulk);
 }
