@@ -10,6 +10,7 @@
             <ul>
                 <li><a href="chapterAdd">Add Chapter</a></li>
                 <li><a href="chaptersView">View Chapters</a></li>
+                <li><a href="xpCalc">XP Calculator</a></li>
             </ul>
         </div>
     </body>
