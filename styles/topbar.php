@@ -1,10 +1,11 @@
 <?php
-$dir = filter_input(INPUT_SERVER, 'SCRIPT_URL');
+$dir = filter_input(INPUT_SERVER, 'REQUEST_URI');
 $path = array_filter(explode('/', $dir));
 if (end($path) == 'index') {
     array_pop($path);
 }
 ?>
+<title><?= end($path) ?></title>
 <link rel="stylesheet" href="/rsu/styles/main.css" type="text/css">
 <link rel="stylesheet" href="/rsu/styles/topbar.css" type="text/css">
 <div class="header">
