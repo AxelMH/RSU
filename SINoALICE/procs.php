@@ -54,8 +54,8 @@ switch ($proc) {
 
         $missionsStats = [
 //        'Beginner' => ['B' => 1, 'A' => 1, 'AP' => 15, 'Gold' => 900],
-            'Intermediate' => ['A' => 3.3862, 'AP' => 30, 'Gold' => 1800],
-            'Advanced' => ['S' => 1.0890, 'A' => 1.2076, 'AP' => 45, 'Gold' => 2700],
+            'Intermediate' => ['A' => 3.41139240506329, 'AP' => 30, 'Gold' => 1800],
+            'Advanced' => ['S' => 1.10493827160494, 'A' => 1.20987654320988, 'AP' => 45, 'Gold' => 2700],
         ];
 
         //not use C materials to calculate nigtmares
@@ -81,51 +81,55 @@ switch ($proc) {
 
         $remove = [];
 
-        $restRarity = filter_input(INPUT_POST, 'restRarity');
-        $restSign = filter_input(INPUT_POST, 'restSign');
-        $restMax = filter_input(INPUT_POST, 'restMax');
+        $restRarityArr = filter_input(INPUT_POST, 'restRarity', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY);
+        $restSignArr = filter_input(INPUT_POST, 'restSign', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY);
+        $restMaxArr = filter_input(INPUT_POST, 'restMax', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY);
 
         foreach ($combinations as $key => $combination) {
 
             //apply restriction
-            if (!empty($restRarity) && !empty($restSign)) {
-                switch ($restSign) {
-                    case 'lt':
-                        if ($combination[$restRarity] >= $restMax) {
-                            $remove[] = $key;
-                            continue 2;
-                        }
-                        break;
-                    case 'lte':
-                        if ($combination[$restRarity] > $restMax) {
-                            $remove[] = $key;
-                            continue 2;
-                        }
-                        break;
-                    case 'eq':
-                        if ($combination[$restRarity] != $restMax) {
-                            $remove[] = $key;
-                            continue 2;
-                        }
-                        break;
-                    case 'gt':
-                        if ($combination[$restRarity] <= $restMax) {
-                            $remove[] = $key;
-                            continue 2;
-                        }
-                        break;
-                    case 'gte':
-                        if ($combination[$restRarity] < $restMax) {
-                            $remove[] = $key;
-                            continue 2;
-                        }
-                        break;
+            foreach (array_keys($restRarityArr) as $restNum) {
+                $restRarity = $restRarityArr[$restNum];
+                $restSign = $restSignArr[$restNum];
+                if (!empty($restRarity) && !empty($restSign)) {
+                    $restMax = $restMaxArr[$restNum];
+                    switch ($restSign) {
+                        case 'lt':
+                            if ($combination[$restRarity] >= $restMax) {
+                                $remove[] = $key;
+                                continue 2;
+                            }
+                            break;
+                        case 'lte':
+                            if ($combination[$restRarity] > $restMax) {
+                                $remove[] = $key;
+                                continue 2;
+                            }
+                            break;
+                        case 'eq':
+                            if ($combination[$restRarity] != $restMax) {
+                                $remove[] = $key;
+                                continue 2;
+                            }
+                            break;
+                        case 'gt':
+                            if ($combination[$restRarity] <= $restMax) {
+                                $remove[] = $key;
+                                continue 2;
+                            }
+                            break;
+                        case 'gte':
+                            if ($combination[$restRarity] < $restMax) {
+                                $remove[] = $key;
+                                continue 2;
+                            }
+                            break;
 
-                    default:
-                        break;
+                        default:
+                            break;
+                    }
                 }
             }
-
             //Calculate AP
             $AP = 0;
             $level = $startLv;
