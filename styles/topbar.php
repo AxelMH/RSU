@@ -27,3 +27,12 @@ if (end($path) == 'index') {
     </ul>
 </div>
 
+<div id="processModal" class="modal">
+    <div class="modal-content">
+        <p>Processing info...</p>
+    </div>
+</div>
+
+<script>
+    var processModal = document.getElementById("processModal");
+</script>

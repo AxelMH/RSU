@@ -53,18 +53,10 @@
             <button onclick="calc();">Calculate</button>
             <div id="resultTable"></div>
         </div>
-        <div id="myModal" class="modal">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <p>Processing info...</p>
-            </div>
-        </div>
 
         <script>
-            var modal = document.getElementById("myModal");
-
             function calc() {
-              modal.style.display = "block";
+              processModal.style.display = "block";
               var xhr = new XMLHttpRequest();
               var form = document.getElementById('data');
               var formData = new FormData(form);
@@ -72,7 +64,7 @@
               xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4) {
                   document.getElementById('resultTable').innerHTML = xhr.responseText;
-                  modal.style.display = "none";
+                  processModal.style.display = "none";
                   return false;
                 }
               };

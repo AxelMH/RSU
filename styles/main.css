@@ -1,9 +1,11 @@
 
+*{
+    font-family: Candara;
+}
+
 body{
     color: white;
     background: black;
-
-
 }
 
 table{
@@ -32,7 +34,7 @@ th {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
-    padding-top: 100px; /* Location of the box */
+    padding-top: 200px; /* Location of the box */
     left: 0;
     top: 0;
     width: 100%; /* Full width */
@@ -49,7 +51,7 @@ th {
     margin: auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 80%;
+    width: 33%;
 }
 
 /* The Close Button */
@@ -66,3 +68,23 @@ th {
     text-decoration: none;
     cursor: pointer;
 }
+
+button {
+    background-color: #00BAFF;
+    border: none;
+    /*color: white;*/
+    color: black;
+    padding: 2px 8px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    /*font-size: 16px;*/
+}
+
+label {
+    text-align: right;
+    display: inline-block;
+    width  : 150px;        
+    padding-right: 5px;
+}
+
